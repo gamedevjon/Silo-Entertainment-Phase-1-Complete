@@ -1,5 +1,8 @@
 #include <iostream>
 #include <string>
+#include <stdlib.h>
+#include <thread>
+#include <chrono>
 
 int main()
 {
@@ -14,71 +17,179 @@ int main()
                                                                                          
 )";
 	int playerSelection = -1;
+	int rounds = 0;
+	int playerScore = 0;
 	int aiSelection = -1;
-
-	std::cout << title;
+	int aiScore = 0;
+	
 	
 
-	//Select Rock, Paper, or Scissors
-	//select 1. Rock
-	//select 2. Paper
-	//select 3. Scissors
-
-	std::cout << "Select Rock, Paper or Scissors:" << std::endl;
-	std::cout << "1. Rock" << std::endl;
-	std::cout << "2. Paper" << std::endl;
-	std::cout << "3. Scissors" << std::endl;
-
-	std::cout << "\nSelection:";
-
-	std::cin >> playerSelection;
-
-	//AI system
-	//assign aiSelection = random number between 1 and 3
+	std::cout << title << std::endl;
 	
-	// Providing a seed value
-	std::srand(time(NULL));
-
-	aiSelection = std::rand() % 3 + 1;
-
-	std::cout << "AI Selection: " << aiSelection << std::endl;
-
-	//Rock beats Scissors
-	if (playerSelection == 1 && aiSelection == 3)
-	{
-		std::cout << "Player wins! \n";
-	}
-	else if (aiSelection == 1 && playerSelection == 3)
-	{
-		std::cout << "AI Wins! \n";
-	}
+	std::cout << "How many rounds would you like to play?:";
+	std::cin >> rounds;
+	std::cout << std::endl;
 
 	
-	//Paper beats Rock
 
-	if (playerSelection == 2 && aiSelection == 1)
+	do
 	{
-		std::cout << "Player Wins! \n";
-	}
-	else if (aiSelection == 2 && playerSelection == 1)
-	{
-		std::cout << "AI Wins! \n";
-	}
+		
+		//TODO: input validation
+		std::cout << "Select Rock, Paper or Scissors:" << std::endl;
+		std::cout << "1. Rock" << std::endl;
+		std::cout << "2. Paper" << std::endl;
+		std::cout << "3. Scissors" << std::endl;
+		std::cout << std::endl;
+		std::cout << "\n";
 
-	//Scissors beats Paper
-	if (playerSelection == 3 && aiSelection == 2)
-	{
-		std::cout << "Player Wins! \n";
-	}
-	else if (aiSelection == 3 && playerSelection == 2)
-	{
-		std::cout << "AI Wins! \n";
-	}
+		std::cout << "[Player 1] ----- Games Remaining ----- [AI]" << std::endl;
+		std::cout << "     " << playerScore << "                 " << rounds << "                " << aiScore << std::endl;
 
-	if (playerSelection == aiSelection)
-	{
-		std::cout << "Draw! Nobody wins!";
-	}
+		std::cout << "\n";
+
+		
+		std::cout << "Selection:";
+		std::cin >> playerSelection;
+		//TODO: input validation
+
+		//AI Code
+		// Providing a seed value
+		std::srand(time(NULL));
+		aiSelection = std::rand() % 3 + 1;
+
+
+		std::string playerHand = "";
+		std::string aiHand = "";
+
+		switch (playerSelection)
+		{
+		case 1: //rock" 
+			playerHand = "Rock";
+			break;
+		case 2: //paper
+			playerHand = "Paper";
+			break;
+		case 3: // scissors
+			playerHand = "Scissors";
+			break;
+		}
+
+		switch (aiSelection)
+		{
+		case 1: //rock" 
+			aiHand = "Rock";
+			break;
+		case 2: //paper
+			aiHand = "Paper";
+			break;
+		case 3: // scissors
+			aiHand = "Scissors";
+			break;
+		}
+
+		
+
+		//Display Outcome
+		std::cout << "\nPlayer: " << playerHand << "   VS   " << aiHand << std::endl;
+
+		std::cout << std::endl;
+		
+		//Rock beats Scissors
+		if (playerSelection == 1 && aiSelection == 3)
+		{
+			std::cout << "Player wins! \n";
+			playerScore++;
+		}
+		else if (aiSelection == 1 && playerSelection == 3)
+		{
+			std::cout << "AI Wins! \n";
+			aiScore++;
+		}
+
+
+		//Paper beats Rock
+
+		if (playerSelection == 2 && aiSelection == 1)
+		{
+			std::cout << "Player Wins! \n";
+			playerScore++;
+		}
+		else if (aiSelection == 2 && playerSelection == 1)
+		{
+			std::cout << "AI Wins! \n";
+			aiScore++;
+		}
+
+		//Scissors beats Paper
+		if (playerSelection == 3 && aiSelection == 2)
+		{
+			std::cout << "Player Wins! \n";
+			playerScore++;
+		}
+		else if (aiSelection == 3 && playerSelection == 2)
+		{
+			std::cout << "AI Wins! \n";
+			aiScore++;
+		}
+
+		if (playerSelection == aiSelection)
+		{
+			std::cout << "Draw! Nobody wins! \n";
+			//clear console
+			//re-draw
+
+			std::cout << "\nNext Round Starts In 3" << std::endl;
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			std::cout << "\nNext Round Starts In 2" << std::endl;
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			std::cout << "\nNext Round Starts In 1" << std::endl;
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			system("cls");
+			continue;
+		}
+
+		if (rounds > 1)
+		{
+			std::cout << "\nNext Round Starts In 3" << std::endl;
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			std::cout << "\nNext Round Starts In 2" << std::endl;
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			std::cout << "\nNext Round Starts In 1" << std::endl;
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+		}
+		else
+		{
+			std::this_thread::sleep_for(std::chrono::seconds(3));
+		}
+		
+
+		
+
+		//clear console
+		//re-draw
+		system("cls");
+		rounds--;
+
+	} while (rounds > 0);
+
+	//celebrate winner
+
+	std::cout << R"(
+   _____                         ____                 
+  / ____|                       / __ \                
+ | |  __  __ _ _ __ ___   ___  | |  | |_   _____ _ __ 
+ | | |_ |/ _` | '_ ` _ \ / _ \ | |  | \ \ / / _ \ '__|
+ | |__| | (_| | | | | | |  __/ | |__| |\ V /  __/ |   
+  \_____|\__,_|_| |_| |_|\___|  \____/  \_/ \___|_|   
+                                                      
+                                                      
+)" << std::endl;
+
+	std::cout << "[Player 1] ----- Games Remaining ----- [AI]" << std::endl;
+	std::cout << "     " << playerScore << "                 " << rounds << "                " << aiScore << std::endl;
+
+	
 
 	return 0;
 }
