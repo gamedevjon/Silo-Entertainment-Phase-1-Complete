@@ -13,12 +13,11 @@ int main()
                                                                                          
                                                                                          
 )";
-
-	//display title
-
-	std::cout << title;
 	int playerSelection = -1;
 	int aiSelection = -1;
+
+	std::cout << title;
+	
 
 	//Select Rock, Paper, or Scissors
 	//select 1. Rock
